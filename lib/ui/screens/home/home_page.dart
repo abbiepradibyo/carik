@@ -86,42 +86,69 @@ class _HomePageState extends State<HomePage> {
             return true;
           },
           child: NestedScrollView(
+              controller: _controller,
+              floatHeaderSlivers: true,
               headerSliverBuilder: (context, innerBoxIsScrolled) {
                 return <Widget>[
                   SliverAppBar(
+                    elevation: 0,
+                    floating: true,
+                    snap: true,
                     backgroundColor: Colors.white,
-                    title: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          const Icon(
-                            Icons.location_on,
-                            color: Color(0xFFEAEAEA),
-                            size: 20,
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const <Widget>[
-                                TextCustom(
-                                  textAlign: TextAlign.left,
-                                  text: "Current Location",
-                                  fontSize: 12,
-                                  color: Color(0xFF333333),
-                                ),
-                                TextCustom(
-                                  text: "semarang indonesia",
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xFF333333),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ]),
-                    // leadingWidth: queryData.size.width * 0.5,
+                    leading: Container(
+                      padding: EdgeInsets.all(8),
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(
+                            "https://asset.kompas.com/crops/29NIL8HUEPxfVvJsJOTS0KVTsJI=/67x0:1000x622/750x500/data/photo/2022/05/10/6279dbc56fe02.jpg"),
+                      ),
+                    ),
+                    title: SafeArea(
+                        top: false,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              BlocBuilder<LocationBloc, LocationState>(
+                                  builder: (context, state) {
+                                if (state is LocationInitial) {
+                                  return const ShimmerLocation();
+                                } else if (state is LocationLoaded) {
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Row(
+                                        children: const <Widget>[
+                                          TextCustom(
+                                            textAlign: TextAlign.left,
+                                            text: "Current Location",
+                                            fontSize: 12,
+                                            color: Color(0xFF333333),
+                                          ),
+                                          Icon(
+                                            Icons.keyboard_arrow_down_outlined,
+                                            color: Colors.black,
+                                            size: 20,
+                                          ),
+                                        ],
+                                      ),
+                                      TextCustom(
+                                        text: state.location,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                        color: const Color(0xFF333333),
+                                      ),
+                                    ],
+                                  );
+                                } else {
+                                  return const ErrorLocationPage();
+                                }
+                              }),
+                            ])
+
+                        // floating: false,
+
+                        ),
+                    // ),
                     actions: <Widget>[
                       IconButton(
                         icon: const Icon(Icons.search, size: 25),
@@ -130,39 +157,194 @@ class _HomePageState extends State<HomePage> {
                         onPressed: () {},
                       ),
                     ],
-                    expandedHeight: 100.0,
-                    floating: false,
-                    // pinned: true,
-                    // flexibleSpace: FlexibleSpaceBar(
-                    //     centerTitle: true,
-                    //     background: Container(
-                    //       child: Column(
-                    //         children: [
-                    //           Expanded(
-                    //             child: Align(
-                    //               alignment: Alignment.bottomCenter,
-                    //               child: Column(
-                    //                 mainAxisAlignment: MainAxisAlignment.center,
-                    //                 children: const <Widget>[
-                    //                   Text('NEW GAME'),
-                    //                   Text('Sekiro: Shadows Dies Twice'),
-                    //                 ],
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     )),
-                  ),
+                    bottom: PreferredSize(
+                      preferredSize: const Size.fromHeight(50),
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 10, top: 20),
+                        child: BlocBuilder<CategoriBloc, CategoriState>(
+                            builder: (context, state) {
+                          if (state is CategoriInitialNotFound) {
+                            return const SizedBox(
+                              height: 10,
+                            );
+                          } else if (state is LoadedCategori) {
+                            // return SizedBox(
+                            //   height: 30,
+                            //   child: ListView.builder(
+                            //       itemCount: state.categorilist.length,
+                            //       shrinkWrap: true,
+                            //       physics: const ClampingScrollPhysics(),
+                            //       scrollDirection: Axis.horizontal,
+                            //       itemBuilder: (context, index) {
+                            //         return Categories(
+                            //           categorie: state.categorilist[index].categori,
+                            //           isSelected: selectedCategorie == categories[index],
+                            //         );
+                            //       }),
+                            // );
+
+                            return Container(
+                              // color: Colors.red,
+                              padding:
+                                  const EdgeInsets.only(left: 15, right: 15),
+                              height: 25,
+                              child: DefaultTabController(
+                                length: state.categorilist.length,
+                                child: TabBar(
+                                  labelPadding: const EdgeInsets.all(0),
+                                  indicatorPadding: const EdgeInsets.all(0),
+                                  isScrollable: true,
+                                  labelColor: ColorsCk.secundary,
+                                  unselectedLabelColor: Colors.black87,
+                                  labelStyle: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700),
+                                  unselectedLabelStyle: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500),
+                                  indicator: RoundedRectangleTabIndicator(
+                                      weight: 2,
+                                      width: 10,
+                                      color: ColorsCk.secundary),
+                                  tabs: List<Widget>.generate(
+                                      state.categorilist.length, (int index) {
+                                    return Tab(
+                                      child: Container(
+                                        // width: MediaQuery.of(context).size.width /
+                                        //     state.categorilist.length,
+                                        margin:
+                                            const EdgeInsets.only(right: 18),
+                                        child: Text(
+                                          state.categorilist[index].categori,
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                                ),
+                              ),
+                            );
+                          } else if (state is CategoriInitial) {
+                            return SingleChildScrollView(
+                                child: Column(
+                              children: const [
+                                ShimmerLocation(),
+                              ],
+                            ));
+                          } else {
+                            return const SizedBox();
+                          }
+                        }),
+                      ),
+                    ),
+                  )
+                  // SliverAppBar(
+                  //   backgroundColor: Colors.white,
+                  //   title: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //       children: <Widget>[
+                  //         // const Icon(
+                  //         //   Icons.location_on,
+                  //         //   color: Color(0xFFEAEAEA),
+                  //         //   size: 20,
+                  //         // ),
+                  //         // const SizedBox(
+                  //         //   width: 10,
+                  //         // ),
+                  //         Container(
+                  //           child: Column(
+                  //             crossAxisAlignment: CrossAxisAlignment.start,
+                  //             children: const <Widget>[
+                  //               TextCustom(
+                  //                 textAlign: TextAlign.left,
+                  //                 text: "Current Location",
+                  //                 fontSize: 12,
+                  //                 color: Color(0xFF333333),
+                  //               ),
+                  //               TextCustom(
+                  //                 text: "semarang indonesia",
+                  //                 fontSize: 13,
+                  //                 fontWeight: FontWeight.w500,
+                  //                 color: Color(0xFF333333),
+                  //               ),
+                  //             ],
+                  //           ),
+                  //         ),
+                  //       ]),
+                  //   // leadingWidth: queryData.size.width * 0.5,
+                  //   actions: <Widget>[
+                  //     IconButton(
+                  //       icon: const Icon(Icons.search, size: 25),
+                  //       color: Colors.black,
+                  //       highlightColor: Colors.black,
+                  //       onPressed: () {},
+                  //     ),
+                  //   ],
+                  //   expandedHeight: 100.0,
+                  //   floating: true,
+                  //   snap: true,
+                  //   // pinned: true,
+                  //   // flexibleSpace: FlexibleSpaceBar(
+                  //   //     centerTitle: true,
+                  //   //     background: Container(
+                  //   //       child: Column(
+                  //   //         children: [
+                  //   //           Expanded(
+                  //   //             child: Align(
+                  //   //               alignment: Alignment.bottomCenter,
+                  //   //               child: Column(
+                  //   //                 mainAxisAlignment: MainAxisAlignment.center,
+                  //   //                 children: const <Widget>[
+                  //   //                   Text('NEW GAME'),
+                  //   //                   Text('Sekiro: Shadows Dies Twice'),
+                  //   //                 ],
+                  //   //               ),
+                  //   //             ),
+                  //   //           ),
+                  //   //         ],
+                  //   //       ),
+                  //   //     )),
+                  // ),
                 ];
               },
-              body: ListView.builder(
-                  padding: const EdgeInsets.all(20),
-                  itemCount: 35,
-                  itemBuilder: (context, index) => Container(
-                      margin: const EdgeInsets.all(10),
-                      color: Colors.red,
-                      child: const ListTile(title: Text('item')))))),
+              body: SizedBox(
+                // color: Colors.black12,
+                height: queryData.size.height * 0.90,
+                child:
+                    BlocBuilder<PostBloc, PostState>(builder: (context, state) {
+                  if (state is PostInitialNotFound) {
+                    return const NoRecordPost();
+                  } else if (state is LoadedPost) {
+                    return ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: const EdgeInsets.only(top: 5),
+                        shrinkWrap: true,
+                        // controller: _controller,
+                        itemCount: state.postlist.length,
+                        itemBuilder: (_, i) {
+                          print('=====');
+                          print(state.postlist[i].desc);
+
+                          print('====');
+                          return (i + 1 == state.postlist.length)
+                              ? state.hasMax
+                                  ? ListViewPosts(posts: state.postlist[i])
+                                  : const BottomLoader()
+                              : ListViewPosts(posts: state.postlist[i]);
+                        });
+                  } else if (state is PostInitial) {
+                    return SingleChildScrollView(
+                        child: Column(
+                      children: const [
+                        ShimmerPost(),
+                        ShimmerPost(),
+                        ShimmerPost(),
+                      ],
+                    ));
+                  } else {
+                    return const ErrorPostPage();
+                  }
+                }),
+              ))),
       floatingActionButton: isdisable
           ? FloatingActionButton(
               onPressed: _incrementCounter,

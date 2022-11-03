@@ -19,8 +19,8 @@ class ListViewPosts extends StatelessWidget {
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.all(5),
-          color: const Color(0xFFF3F3F3),
+          padding: const EdgeInsets.only(top: 8),
+          color: const Color(0xFFd9d9d9),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -28,71 +28,107 @@ class ListViewPosts extends StatelessWidget {
               //   backgroundImage:
               //       NetworkImage(Environment.baseUrl + posts.avatar),
               // ),
-              Expanded(
-                flex: 2,
+              // Expanded(
+              //   flex: 2,
 
-                child: SizedBox(
-                  height: 45,
-                  width: 45,
-                  child: CircleAvatar(
-                    backgroundImage:
-                        NetworkImage(Environment.baseUrl + posts.avatar),
-                  ),
-                ),
-                // child: CachedNetworkImage(
-                //   width: 50,
-                //   height: 50,
-                //   placeholder: (context, url) => Container(
-                //       height: 50,
-                //       width: 50,
-                //       color: const Color(0xFFF5CEB8)),
-                //   errorWidget: (context, url, error) => Container(
-                //     height: 50,
-                //     width: 50,
-                //     color: const Color(0xFFF5CEB8),
-                //     child: const Icon(Icons.error),
-                //   ),
-                //   imageUrl: Environment.baseUrl + posts.avatar,
-                // )
-              ),
+              //   child: SizedBox(
+              //     height: 45,
+              //     width: 45,
+              //     child: CircleAvatar(
+              //       backgroundImage:
+              //           NetworkImage(Environment.baseUrl + posts.avatar),
+              //     ),
+              //   ),
+              //   // child: CachedNetworkImage(
+              //   //   width: 50,
+              //   //   height: 50,
+              //   //   placeholder: (context, url) => Container(
+              //   //       height: 50,
+              //   //       width: 50,
+              //   //       color: const Color(0xFFfde2bc)),
+              //   //   errorWidget: (context, url, error) => Container(
+              //   //     height: 50,
+              //   //     width: 50,
+              //   //     color: const Color(0xFFF5CEB8),
+              //   //     child: const Icon(Icons.error),
+              //   //   ),
+              //   //   imageUrl: Environment.baseUrl + posts.avatar,
+              //   // )
+              // ),
               // const SizedBox(
               //   width: 5,
               // ),
               Expanded(
-                flex: 9,
                 child: Container(
+                  alignment: Alignment.centerLeft,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(0),
                   ),
                   padding: const EdgeInsets.all(10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(children: [
-                        TextCustom(
-                            text: posts.username,
-                            fontSize: 14,
-                            color: Colors.black87,
-                            fontWeight: FontWeight.bold),
-                        const SizedBox(
-                          child: TextCustom(
-                            text: ' . ',
-                            fontSize: 14,
+                      Row(children: <Widget>[
+                        Container(
+                          height: 40.0,
+                          width: 40.0,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(40),
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                  Environment.baseUrl + posts.avatar),
+                              fit: BoxFit.fill,
+                            ),
                           ),
                         ),
-                        TextCustom(
-                            text: time,
-                            fontSize: 12,
-                            color: Colors.black87,
-                            overflow: TextOverflow.clip,
-                            maxLines: 5),
+                        // CircleAvatar(
+
+                        //   backgroundImage:
+                        //       NetworkImage(Environment.baseUrl + posts.avatar),
+                        // ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Column(children: <Widget>[
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            child: TextCustom(
+                              text: posts.username,
+                              fontSize: 16,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.w600,
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                          Container(
+                              alignment: Alignment.centerLeft,
+                              child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    TextCustom(
+                                        textAlign: TextAlign.left,
+                                        text: time,
+                                        fontSize: 12,
+                                        color: Colors.black54,
+                                        overflow: TextOverflow.clip,
+                                        maxLines: 5),
+                                    const SizedBox(
+                                      child: TextCustom(
+                                        text: ' . ',
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    const Icon(Icons.access_time_filled,
+                                        size: 12, color: Colors.black45),
+                                  ])),
+                        ])
                       ]),
                       Padding(
                         padding: const EdgeInsets.only(top: 2),
                         child: TextCustom(
                             text: posts.desc,
-                            fontSize: 13,
+                            fontSize: 14,
                             color: Colors.black87,
                             maxLines: 5,
                             overflow: TextOverflow.ellipsis),

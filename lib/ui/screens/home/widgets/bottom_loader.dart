@@ -7,6 +7,8 @@ class BottomLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: const Color(0xFFd9d9d9),
+      padding: const EdgeInsets.all(5),
       alignment: Alignment.center,
       child: const Center(
         child: Padding(
@@ -16,7 +18,7 @@ class BottomLoader extends StatelessWidget {
             height: 33,
             child: CircularProgressIndicator(
               strokeWidth: 2.5,
-              color: ColorsCk.shimmerbase,
+              color: Colors.black54,
             ),
           ),
         ),
