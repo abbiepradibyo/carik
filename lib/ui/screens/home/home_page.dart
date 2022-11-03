@@ -93,14 +93,14 @@ class _HomePageState extends State<HomePage> {
                     title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          // const Icon(
-                          //   Icons.location_on,
-                          //   color: Color(0xFFEAEAEA),
-                          //   size: 20,
-                          // ),
-                          // const SizedBox(
-                          //   width: 10,
-                          // ),
+                          const Icon(
+                            Icons.location_on,
+                            color: Color(0xFFEAEAEA),
+                            size: 20,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
                           Container(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
