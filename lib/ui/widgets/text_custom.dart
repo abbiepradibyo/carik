@@ -21,7 +21,7 @@ class TextCustom extends StatelessWidget {
     this.maxLines = 1,
     this.overflow = TextOverflow.visible,
     this.textAlign = TextAlign.left,
-    this.letterSpacing = 0.7,
+    this.letterSpacing,
     this.isTitle = false,
   }) : super(key: key);
 
@@ -29,7 +29,7 @@ class TextCustom extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: GoogleFonts.getFont(isTitle ? 'Roboto' : 'Roboto',
+      style: GoogleFonts.getFont(isTitle ? 'Open Sans' : 'Open Sans',
           fontSize: fontSize,
           fontWeight: fontWeight,
           color: color,

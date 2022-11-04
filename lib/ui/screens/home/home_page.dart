@@ -94,9 +94,11 @@ class _HomePageState extends State<HomePage> {
                     elevation: 0,
                     floating: true,
                     snap: true,
+                    pinned: true,
                     backgroundColor: Colors.white,
                     leading: Container(
-                      padding: EdgeInsets.all(8),
+                      // color: Colors.red,
+                      padding: EdgeInsets.only(left: 5, top: 5, bottom: 5),
                       child: CircleAvatar(
                         backgroundImage: NetworkImage(
                             "https://asset.kompas.com/crops/29NIL8HUEPxfVvJsJOTS0KVTsJI=/67x0:1000x622/750x500/data/photo/2022/05/10/6279dbc56fe02.jpg"),
@@ -114,12 +116,12 @@ class _HomePageState extends State<HomePage> {
                                 } else if (state is LocationLoaded) {
                                   return Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                        CrossAxisAlignment.center,
                                     children: <Widget>[
                                       Row(
                                         children: const <Widget>[
                                           TextCustom(
-                                            textAlign: TextAlign.left,
+                                            textAlign: TextAlign.center,
                                             text: "Current Location",
                                             fontSize: 12,
                                             color: Color(0xFF333333),
@@ -150,17 +152,42 @@ class _HomePageState extends State<HomePage> {
                         ),
                     // ),
                     actions: <Widget>[
-                      IconButton(
-                        icon: const Icon(Icons.search, size: 25),
-                        color: Colors.black,
-                        highlightColor: Colors.black,
-                        onPressed: () {},
+                      Container(
+                        margin: EdgeInsets.only(right: 10, top: 10, bottom: 10),
+                        width: 35,
+                        height: 35,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFf3f3f3),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: IconButton(
+                          icon:
+                              const Icon(Icons.notifications_rounded, size: 20),
+                          color: Colors.black,
+                          highlightColor: Colors.black,
+                          onPressed: () {},
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(right: 10, top: 10, bottom: 10),
+                        width: 35,
+                        height: 35,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFf3f3f3),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: IconButton(
+                          icon: const Icon(Icons.search, size: 20),
+                          color: Colors.black,
+                          highlightColor: Colors.black,
+                          onPressed: () {},
+                        ),
                       ),
                     ],
                     bottom: PreferredSize(
-                      preferredSize: const Size.fromHeight(50),
+                      preferredSize: const Size.fromHeight(65),
                       child: Padding(
-                        padding: const EdgeInsets.only(bottom: 10, top: 20),
+                        padding: const EdgeInsets.only(bottom: 20, top: 20),
                         child: BlocBuilder<CategoriBloc, CategoriState>(
                             builder: (context, state) {
                           if (state is CategoriInitialNotFound) {
@@ -187,7 +214,7 @@ class _HomePageState extends State<HomePage> {
                               // color: Colors.red,
                               padding:
                                   const EdgeInsets.only(left: 15, right: 15),
-                              height: 25,
+                              height: 20,
                               child: DefaultTabController(
                                 length: state.categorilist.length,
                                 child: TabBar(

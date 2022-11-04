@@ -1,6 +1,7 @@
 import 'package:carikerja/data/env/env.dart';
 import 'package:carikerja/domain/models/response/response_post.dart';
 import 'package:carikerja/ui/widgets/text_custom.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 import 'package:flutter/material.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -16,6 +17,8 @@ class ListViewPosts extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<String> listImages = posts.images.split(',');
     final time = timeago.format(posts.createdAt, locale: 'en_short');
+    MediaQueryData queryData;
+    queryData = MediaQuery.of(context);
     return Column(
       children: [
         Container(
@@ -65,7 +68,7 @@ class ListViewPosts extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(0),
                   ),
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -133,65 +136,72 @@ class ListViewPosts extends StatelessWidget {
                             maxLines: 5,
                             overflow: TextOverflow.ellipsis),
                       ),
-                      // posts.images != ""
-                      //     ? ClipRRect(
-                      //         child: CarouselSlider.builder(
-                      //           itemCount: listImages.length,
-                      //           options: CarouselOptions(
-                      //             viewportFraction: 1.0,
-                      //             enableInfiniteScroll: false,
-                      //             height: 250,
-                      //             scrollPhysics: const BouncingScrollPhysics(),
-                      //             autoPlay: false,
-                      //           ),
-                      //           itemBuilder: (context, i, realIndex) => Container(
-                      //             decoration: BoxDecoration(
-                      //                 image: DecorationImage(
-                      //                     fit: BoxFit.cover,
-                      //                     image: NetworkImage(
-                      //                         Environment.baseUrl +
-                      //                             listImages[i]))),
-                      //           ),
-                      //         ),
-                      //       )
-                      //     : const SizedBox(height: 1),
 
                       posts.images != ""
-                          ? SizedBox(
-                              child: MasonryGridView.count(
-                              physics: const NeverScrollableScrollPhysics(),
-                              crossAxisCount: 3,
-                              shrinkWrap: true,
-                              mainAxisSpacing: 2,
-                              crossAxisSpacing: 2,
-                              itemCount: listImages.length,
-                              itemBuilder: (context, i) {
-                                return ClipRRect(
-                                    borderRadius: BorderRadius.circular(1),
-                                    // child: Image.network(
-                                    //   Environment.baseUrl + listImages[i],
-                                    //   // height: 100.0,
-                                    //   fit: BoxFit.cover,
-                                    // ));
+                          ? Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(25),
+                                child: CarouselSlider.builder(
+                                  itemCount: listImages.length,
+                                  options: CarouselOptions(
+                                    viewportFraction: 1.0,
+                                    enableInfiniteScroll: false,
+                                    height: queryData.size.height * 0.50,
+                                    scrollPhysics:
+                                        const BouncingScrollPhysics(),
+                                    autoPlay: false,
+                                    
+                                  ),
+                                  itemBuilder: (context, i, realIndex) =>
+                                      Container(
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: NetworkImage(
+                                                Environment.baseUrl +
+                                                    listImages[i]))),
+                                  ),
+                                ),
+                              ))
+                          : const SizedBox(),
 
-                                    child: CachedNetworkImage(
-                                      placeholder: (context, url) => Container(
-                                          height: 100,
-                                          width: 100,
-                                          color: const Color(0xFFF5CEB8)),
-                                      errorWidget: (context, url, error) =>
-                                          Container(
-                                        height: 100,
-                                        width: 100,
-                                        color: const Color(0xFFF5CEB8),
-                                        child: const Icon(Icons.error),
-                                      ),
-                                      imageUrl:
-                                          Environment.baseUrl + listImages[i],
-                                    ));
-                              },
-                            ))
-                          : const SizedBox(height: 1),
+                      // posts.images != ""
+                      //     ? SizedBox(
+                      //         child: MasonryGridView.count(
+                      //         physics: const NeverScrollableScrollPhysics(),
+                      //         crossAxisCount: 3,
+                      //         shrinkWrap: true,
+                      //         mainAxisSpacing: 2,
+                      //         crossAxisSpacing: 2,
+                      //         itemCount: listImages.length,
+                      //         itemBuilder: (context, i) {
+                      //           return ClipRRect(
+                      //               borderRadius: BorderRadius.circular(1),
+                      //               // child: Image.network(
+                      //               //   Environment.baseUrl + listImages[i],
+                      //               //   // height: 100.0,
+                      //               //   fit: BoxFit.cover,
+                      //               // ));
+
+                      //               child: CachedNetworkImage(
+                      //                 placeholder: (context, url) => Container(
+                      //                     height: 100,
+                      //                     width: 100,
+                      //                     color: const Color(0xFFF5CEB8)),
+                      //                 errorWidget: (context, url, error) =>
+                      //                     Container(
+                      //                   height: 100,
+                      //                   width: 100,
+                      //                   color: const Color(0xFFF5CEB8),
+                      //                   child: const Icon(Icons.error),
+                      //                 ),
+                      //                 imageUrl:
+                      //                     Environment.baseUrl + listImages[i],
+                      //               ));
+                      //         },
+                      //       ))
+                      //     : const SizedBox(height: 1),
                       Padding(
                         padding: const EdgeInsets.only(top: 5),
                         child: Row(
