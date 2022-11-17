@@ -20,9 +20,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       try {
         if (start == 0) {
           start++;
-          print('pertana');
-          print(start);
-          print('pertama');
+
           emit(PostInitial());
           lat = (await locationStorage.readLatitude())!;
           long = (await locationStorage.readLongitude())!;
@@ -31,20 +29,17 @@ class PostBloc extends Bloc<PostEvent, PostState> {
               await PostServices().getAllPostHome(lat, long, start, limit);
 
           postList.addAll(list);
-          print(list.length);
+
           list.isEmpty
               ? emit(PostInitialNotFound())
               : emit(LoadedPost(postlist: postList, hasMax: false));
         } else {
           start++;
-          print('kedua');
-          print(start);
-          print('kedua');
+
           List<Post> list =
               await PostServices().getAllPostHome(lat, long, start, limit);
           postList.addAll(list);
 
-          print(list.length);
           list.isEmpty
               ? emit(LoadedPost(postlist: postList, hasMax: true))
               : emit(LoadedPost(postlist: postList, hasMax: false));

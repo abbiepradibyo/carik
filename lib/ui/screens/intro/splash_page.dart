@@ -1,6 +1,7 @@
 import 'package:carikerja/ui/helpers/animation_route.dart';
-import 'package:carikerja/ui/screens/home/home_page.dart';
+
 import 'package:carikerja/ui/screens/login/strated_page.dart';
+import 'package:carikerja/ui/screens/main_screen.dart';
 import 'package:carikerja/ui/widgets/text_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,7 +57,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
         } else if (state is SuccessAuthentication) {
           userBloc.add(OnGetUserAuthenticationEvent());
           Navigator.pushAndRemoveUntil(
-              context, routeSlide(page: const HomePage()), (_) => false);
+              context, routeSlide(page: const MainScreen()), (_) => false);
         }
       },
       child: Scaffold(

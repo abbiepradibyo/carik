@@ -1,4 +1,4 @@
-import 'package:carikerja/domain/blocs/categori/categori_bloc.dart';
+
 import 'package:carikerja/ui/screens/intro/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

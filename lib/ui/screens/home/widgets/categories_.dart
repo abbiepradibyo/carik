@@ -20,12 +20,12 @@ class Categories extends StatelessWidget {
         decoration: BoxDecoration(
             border:
                 Border.all(color: isSelected ? Colors.black : Colors.black45),
-            color: isSelected ? Color(0xFF3C4048) : Colors.white,
+            color: isSelected ? const Color(0xFF3C4048) : Colors.white,
             borderRadius: BorderRadius.circular(30)),
         child: Text(
           categorie,
-          style:
-              TextStyle(color: isSelected ? Colors.white : Color(0xFF3C4048)),
+          style: TextStyle(
+              color: isSelected ? Colors.white : const Color(0xFF3C4048)),
         ),
       ),
     );

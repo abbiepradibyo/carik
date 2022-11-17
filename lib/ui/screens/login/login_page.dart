@@ -2,6 +2,7 @@ import 'package:carikerja/ui/helpers/animation_route.dart';
 import 'package:carikerja/ui/helpers/error_message.dart';
 import 'package:carikerja/ui/helpers/modal_loading.dart';
 import 'package:carikerja/ui/helpers/validate_form.dart';
+import 'package:carikerja/ui/screens/main_screen.dart';
 import 'package:carikerja/ui/themes/btn_ck.dart';
 import 'package:carikerja/ui/themes/colors_ck.dart';
 import 'package:carikerja/ui/themes/field_ck.dart';
@@ -10,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carikerja/domain/blocs/blocs.dart';
 
-import 'package:carikerja/ui/screens/home/home_page.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -57,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
           userBloc.add(OnGetUserAuthenticationEvent());
           Navigator.pop(context);
           Navigator.pushAndRemoveUntil(
-              context, routeSlide(page: const HomePage()), (_) => false);
+              context, routeSlide(page: const MainScreen()), (_) => false);
         }
       },
       child: Scaffold(

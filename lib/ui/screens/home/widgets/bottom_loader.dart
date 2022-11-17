@@ -1,4 +1,3 @@
-import 'package:carikerja/ui/themes/colors_ck.dart';
 import 'package:flutter/material.dart';
 
 class BottomLoader extends StatelessWidget {

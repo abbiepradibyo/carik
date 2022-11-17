@@ -4,8 +4,9 @@ import 'package:carikerja/ui/widgets/text_custom.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
 
 class ListViewPosts extends StatefulWidget {
@@ -162,10 +163,15 @@ class _ListViewPostsState extends State<ListViewPosts> {
                           children: <Widget>[
                             Row(children: <Widget>[
                               Row(
-                                children: const <Widget>[
-                                  Center(
-                                    child: Icon(Icons.location_on_rounded,
-                                        size: 24, color: Colors.black54),
+                                children: <Widget>[
+                                  IconButton(
+                                    icon: SvgPicture.asset(
+                                      'assets/icon/marker.svg',
+                                      color: Colors.black,
+                                      height: 25,
+                                      width: 25,
+                                    ),
+                                    onPressed: () {},
                                   ),
                                   SizedBox(
                                     width: 5,
@@ -181,10 +187,15 @@ class _ListViewPostsState extends State<ListViewPosts> {
                                 width: 20,
                               ),
                               Row(
-                                children: const <Widget>[
-                                  Center(
-                                    child: Icon(Icons.favorite_outline_rounded,
-                                        size: 24, color: Colors.black54),
+                                children: <Widget>[
+                                  IconButton(
+                                    icon: SvgPicture.asset(
+                                      'assets/icon/heart.svg',
+                                      color: Colors.black,
+                                      height: 25,
+                                      width: 25,
+                                    ),
+                                    onPressed: () {},
                                   ),
                                   SizedBox(
                                     width: 5,
@@ -225,9 +236,14 @@ class _ListViewPostsState extends State<ListViewPosts> {
                                     : const SizedBox(),
                               ],
                             ),
-                            const Center(
-                              child: Icon(Icons.bookmark_outline,
-                                  size: 24, color: Colors.black54),
+                            IconButton(
+                              icon: SvgPicture.asset(
+                                'assets/icon/bookmark.svg',
+                                color: Colors.black,
+                                height: 25,
+                                width: 25,
+                              ),
+                              onPressed: () {},
                             ),
                           ],
                         ),
