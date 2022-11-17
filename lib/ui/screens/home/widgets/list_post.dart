@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:carikerja/data/env/env.dart';
 import 'package:carikerja/domain/models/response/response_post.dart';
 import 'package:carikerja/ui/widgets/text_custom.dart';
@@ -27,235 +29,168 @@ class _ListViewPostsState extends State<ListViewPosts> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     final List<String> listImages = widget.posts.images.split(',');
     final time = timeago.format(widget.posts.createdAt, locale: 'en_short');
 
-    MediaQueryData queryData;
-    queryData = MediaQuery.of(context);
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.only(top: 8),
-          color: const Color(0xFFd9d9d9),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Container(
-                  alignment: Alignment.centerLeft,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 0.0),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 5.0),
+        height: 350,
+        width: size.width,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20.0), color: Colors.grey[100]),
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(0.0),
+              child: CarouselSlider.builder(
+                itemCount: listImages.length,
+                options: CarouselOptions(
+                  viewportFraction: 1.0,
+                  enableInfiniteScroll: false,
+                  height: 350,
+                  scrollPhysics: const BouncingScrollPhysics(),
+                  autoPlay: false,
+                ),
+                itemBuilder: (context, i, realIndex) => Container(
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(
+                              Environment.baseUrl + listImages[i]))),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Stack(
+                children: [
+                  Column(
                     children: [
                       Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 20, right: 15, left: 15),
-                                child: Row(children: <Widget>[
-                                  Container(
-                                    height: 40.0,
-                                    width: 40.0,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(40),
-                                      image: DecorationImage(
-                                        image: NetworkImage(
-                                            Environment.baseUrl +
-                                                widget.posts.avatar),
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Column(children: <Widget>[
-                                    Container(
-                                      alignment: Alignment.centerLeft,
-                                      child: TextCustom(
-                                        text: widget.posts.username,
-                                        fontSize: 16,
-                                        color: Colors.black87,
-                                        fontWeight: FontWeight.w600,
-                                        textAlign: TextAlign.left,
-                                      ),
-                                    ),
-                                    Container(
-                                        alignment: Alignment.centerLeft,
-                                        child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              TextCustom(
-                                                  textAlign: TextAlign.left,
-                                                  text: time,
-                                                  fontSize: 12,
-                                                  color: Colors.black54,
-                                                  overflow: TextOverflow.clip,
-                                                  maxLines: 5),
-                                              const SizedBox(
-                                                child: TextCustom(
-                                                  text: ' . ',
-                                                  fontSize: 14,
-                                                ),
-                                              ),
-                                              const Icon(
-                                                  Icons.access_time_filled,
-                                                  size: 12,
-                                                  color: Colors.black45),
-                                            ])),
-                                  ])
-                                ])),
-                            const Padding(
-                              padding: EdgeInsets.all(15),
-                              child: Icon(Icons.more_vert_outlined,
-                                  size: 24, color: Colors.black54),
-                            )
-                          ]),
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(top: 15, right: 15, left: 15),
-                        child: TextCustom(
-                            text: widget.posts.desc,
-                            fontSize: 14,
-                            color: Colors.black87,
-                            maxLines: 5,
-                            overflow: TextOverflow.ellipsis),
-                      ),
-                      widget.posts.images != ""
-                          ? Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: ClipRRect(
-                                // borderRadius: BorderRadius.circular(25),
-                                child: CarouselSlider.builder(
-                                  itemCount: listImages.length,
-                                  options: CarouselOptions(
-                                      viewportFraction: 1.0,
-                                      enableInfiniteScroll: false,
-                                      height: queryData.size.height * 0.50,
-                                      scrollPhysics:
-                                          const BouncingScrollPhysics(),
-                                      autoPlay: false,
-                                      onPageChanged: (index, reason) {
-                                        setState(() {
-                                          currentPos = index;
-                                        });
-                                      }),
-                                  itemBuilder: (context, i, realIndex) =>
-                                      Container(
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(
-                                                Environment.baseUrl +
-                                                    listImages[i]))),
-                                  ),
-                                ),
-                              ))
-                          : const SizedBox(),
-                      Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Row(children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  IconButton(
-                                    icon: SvgPicture.asset(
-                                      'assets/icon/marker.svg',
-                                      color: Colors.black,
-                                      height: 25,
-                                      width: 25,
-                                    ),
-                                    onPressed: () {},
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                    Environment.baseUrl + widget.posts.avatar),
+                              ),
+                              const SizedBox(width: 10.0),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
                                   TextCustom(
-                                    text: "1,4",
-                                    fontSize: 12,
-                                    color: Colors.black54,
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  IconButton(
-                                    icon: SvgPicture.asset(
-                                      'assets/icon/heart.svg',
-                                      color: Colors.black,
-                                      height: 25,
-                                      width: 25,
-                                    ),
-                                    onPressed: () {},
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
+                                      text: widget.posts.username,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500),
                                   TextCustom(
-                                    text: "2.5",
-                                    fontSize: 12,
-                                    color: Colors.black54,
-                                  ),
+                                      text: time,
+                                      fontSize: 15,
+                                      color: Colors.white),
                                 ],
-                              ),
-                            ]),
-                            Row(
-                              children: [
-                                listImages.length > 1
-                                    ? Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: listImages.map((url) {
-                                          int index = listImages.indexOf(url);
-                                          return Container(
-                                            width:
-                                                currentPos == index ? 6.0 : 5.0,
-                                            height:
-                                                currentPos == index ? 6.0 : 5.0,
-                                            margin: const EdgeInsets.symmetric(
-                                                vertical: 10.0,
-                                                horizontal: 2.0),
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: currentPos == index
-                                                  ? Colors.black54
-                                                  : Colors.black26,
-                                            ),
-                                          );
-                                        }).toList(),
-                                      )
-                                    : const SizedBox(),
-                              ],
-                            ),
-                            IconButton(
-                              icon: SvgPicture.asset(
-                                'assets/icon/bookmark.svg',
-                                color: Colors.black,
-                                height: 25,
-                                width: 25,
-                              ),
+                              )
+                            ],
+                          ),
+                          IconButton(
                               onPressed: () {},
-                            ),
-                          ],
-                        ),
+                              icon: const Icon(Icons.more_vert_rounded,
+                                  color: Colors.white, size: 25))
+                        ],
                       ),
                     ],
                   ),
-                ),
+                  Positioned(
+                      bottom: 15,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        height: 45,
+                        width: size.width * .9,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(50.0),
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                            child: Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                              color: Colors.white.withOpacity(0.2),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          InkWell(
+                                            onTap: () => {},
+                                            child: widget.posts.isLike == 1
+                                                ? const Icon(
+                                                    Icons.favorite_rounded,
+                                                    color: Colors.red)
+                                                : const Icon(
+                                                    Icons
+                                                        .favorite_outline_rounded,
+                                                    color: Colors.white),
+                                          ),
+                                          const SizedBox(width: 8.0),
+                                          InkWell(
+                                              onTap: () {},
+                                              child: TextCustom(
+                                                  text: widget.posts.countLikes
+                                                      .toString(),
+                                                  fontSize: 16,
+                                                  color: Colors.white))
+                                        ],
+                                      ),
+                                      const SizedBox(width: 20.0),
+                                      TextButton(
+                                        onPressed: () => {},
+                                        child: Row(
+                                          children: [
+                                            SvgPicture.asset(
+                                                'assets/svg/message-icon.svg',
+                                                color: Colors.white),
+                                            const SizedBox(width: 5.0),
+                                            TextCustom(
+                                                text: "1",
+                                                fontSize: 16,
+                                                color: Colors.white)
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      IconButton(
+                                          onPressed: () {},
+                                          icon: SvgPicture.asset(
+                                              'assets/svg/send-icon.svg',
+                                              height: 24,
+                                              color: Colors.white)),
+                                      IconButton(
+                                          onPressed: () => {},
+                                          icon: const Icon(
+                                              Icons.bookmark_border_rounded,
+                                              size: 27,
+                                              color: Colors.white))
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ))
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
