@@ -213,6 +213,7 @@ class _HomePageState extends State<HomePage> {
     queryData = MediaQuery.of(context);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: NotificationListener<UserScrollNotification>(
           onNotification: (notification) {
             if (notification.direction == ScrollDirection.forward) {
@@ -407,7 +408,6 @@ class _HomePageState extends State<HomePage> {
                 ];
               },
               body: SizedBox(
-                // color: Colors.black12,
                 height: queryData.size.height * 0.90,
                 child:
                     BlocBuilder<PostBloc, PostState>(builder: (context, state) {
